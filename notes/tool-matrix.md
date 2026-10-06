@@ -17,3 +17,9 @@ Run after `reset-lab.sh simple`. Viewpoint = `SIM_HOST` (default HCA01).
 | perfquery | partial | works, counters are 0 (nothing generates traffic/errors) |
 | ibping -S | not meaningful | server just blocks; needs real data-plane |
 | ibv_devinfo | irrelevant | verbs library/device not provided (not installed); needs real HCA/rdma_rxe |
+
+## Fault injection (ibsim console, via `simcmd` in env.sh) - verified on redundant.net
+- `Unlink "S-0002c90000000100"[3]` -> OpenSM light sweep (~10s) -> SW01 LFT: DLIDs 3,7,8 move from port 3 to port 4 (via SW03).
+- `ReLink ...` -> LFT returns to the same *connectivity*, but OpenSM may pick different equal-cost paths than before
+  (observed: HCA01->HCA04 stayed via SW03). "Link restored" != "routes identical".
+- Also available: `Error "node"[port] <rate> [attr]` (MAD error injection), `Clear`, `Guid`, `Baselid`, `PerformanceSet`.

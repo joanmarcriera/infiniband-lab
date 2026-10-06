@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 case "${1:-shell}" in
   up)    docker build -q -t ib-lab . >/dev/null
          docker rm -f ib-lab >/dev/null 2>&1 || true
-         docker run -d --name ib-lab --restart unless-stopped -v "$PWD:/lab" ib-lab >/dev/null
+         docker run -d --init --name ib-lab --restart unless-stopped -v "$PWD:/lab" ib-lab >/dev/null
          docker exec ib-lab bash -c 'echo "source /lab/scripts/env.sh" >> /root/.bashrc; echo "export PATH=/lab/scripts:\$PATH" >> /root/.bashrc'
          echo "container ib-lab up. Next: lab shell, then reset-lab.sh" ;;
   shell) exec docker exec -it ib-lab bash ;;

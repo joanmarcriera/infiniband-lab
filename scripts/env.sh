@@ -11,3 +11,7 @@ export LD_PRELOAD="$IBSIM_SO"
 export SIM_HOST="${SIM_HOST:-HCA01}"
 export LAB=/lab
 simhost() { export SIM_HOST="${1:?usage: simhost <node name, e.g. HCA03>}"; echo "viewpoint: $SIM_HOST"; }
+# simcmd '<ibsim console command>' - inject a command into the running simulator, e.g.
+#   simcmd 'Unlink "S-0002c90000000100"[3]'     (cut a link)     simcmd 'ReLink "S-0002c90000000100"[3]'  (restore)
+# Output lands in logs/ibsim.log. 'help' lists every console command.
+simcmd() { timeout 3 bash -c 'echo "$1" > /lab/logs/ibsim.cmd' _ "$1"; }

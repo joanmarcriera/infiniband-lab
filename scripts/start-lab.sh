@@ -12,7 +12,7 @@ fifo=/lab/logs/ibsim.cmd; rm -f "$fifo"; mkfifo "$fifo"
 echo "$topo" > /lab/logs/ibsim.topology
 # env -u LD_PRELOAD: the simulator must not intercept its own calls.
 # 'sleep infinity > fifo' keeps the FIFO open so ibsim's console never sees EOF.
-(sleep infinity > "$fifo" &)
+(sleep infinity > "$fifo" & echo $! > /lab/logs/ibsim.fifo-holder)
 (env -u LD_PRELOAD nohup ibsim -s "$net" < "$fifo" > /lab/logs/ibsim.log 2>&1 &)
 for _ in {1..20}; do grep -q "Network simulator ready" /lab/logs/ibsim.log 2>/dev/null && break; sleep 0.25; done
 grep -q "Network simulator ready" /lab/logs/ibsim.log || { echo "ibsim failed to start:" >&2; cat /lab/logs/ibsim.log >&2; exit 1; }

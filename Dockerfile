@@ -6,4 +6,4 @@ RUN apt-get update \
       ibsim-utils opensm infiniband-diags graphviz python3 less procps \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /lab
-CMD ["sleep", "infinity"]
+CMD ["tail", "-f", "/dev/null"]
