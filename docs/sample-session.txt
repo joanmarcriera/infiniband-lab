@@ -1,0 +1,52 @@
+$ sminfo
+sminfo: sm lid 1 sm guid 0x2c90000000011, activity count 186 priority 0 state 3 SMINFO_MASTER
+
+$ ibaddr
+GID fe80::2:c900:0:11 LID start 0x1 end 0x1
+
+$ ibroute 2 | lft-table.py
+SW01  (LID 2, GUID 0x0002c90000000100)
+┌──────┬─────────────┬─────────────┐
+│ DLID │ Egress port │ Destination │
+├──────┼─────────────┼─────────────┤
+│ 1    │ 1           │ HCA01       │
+│ 2    │ 0           │ SW01        │
+│ 3    │ 3           │ SW02        │
+│ 4    │ 4           │ SW03        │
+│ 5    │ 3           │ SW04        │
+│ 6    │ 2           │ HCA02       │
+│ 7    │ 3           │ HCA03       │
+│ 8    │ 4           │ HCA04       │
+└──────┴─────────────┴─────────────┘
+
+$ ibtracert 1 8
+From ca {0x0002c90000000010} portnum 1 lid 1-1 "HCA01"
+[1] -> switch port {0x0002c90000000100}[1] lid 2-2 "SW01"
+[4] -> switch port {0x0002c90000000300}[1] lid 4-4 "SW03"
+[2] -> switch port {0x0002c90000000400}[4] lid 5-5 "SW04"
+[2] -> ca port {0x0002c90000000041}[1] lid 8-8 "HCA04"
+To ca {0x0002c90000000040} portnum 1 lid 8-8 "HCA04"
+
+$ simcmd (cut SW01 port 4, SW01<->SW03); wait one sweep
+$ ibroute 2 | lft-table.py
+SW01  (LID 2, GUID 0x0002c90000000100)
+┌──────┬─────────────┬─────────────┐
+│ DLID │ Egress port │ Destination │
+├──────┼─────────────┼─────────────┤
+│ 1    │ 1           │ HCA01       │
+│ 2    │ 0           │ SW01        │
+│ 3    │ 3           │ SW02        │
+│ 4    │ 3           │ SW03        │
+│ 5    │ 3           │ SW04        │
+│ 6    │ 2           │ HCA02       │
+│ 7    │ 3           │ HCA03       │
+│ 8    │ 3           │ HCA04       │
+└──────┴─────────────┴─────────────┘
+
+$ ibtracert 1 8
+From ca {0x0002c90000000010} portnum 1 lid 1-1 "HCA01"
+[1] -> switch port {0x0002c90000000100}[1] lid 2-2 "SW01"
+[3] -> switch port {0x0002c90000000200}[1] lid 3-3 "SW02"
+[2] -> switch port {0x0002c90000000400}[3] lid 5-5 "SW04"
+[2] -> ca port {0x0002c90000000041}[1] lid 8-8 "HCA04"
+To ca {0x0002c90000000040} portnum 1 lid 8-8 "HCA04"

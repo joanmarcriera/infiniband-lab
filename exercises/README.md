@@ -1,6 +1,6 @@
 # Exercises
 
-Setup once: `ssh dockerhost`, `cd ~/infiniband-lab`, `scripts/lab shell`, then inside: `reset-lab.sh redundant`.
+Setup once: on the Docker host `cd infiniband-lab`, `scripts/lab shell`, then inside: `reset-lab.sh redundant`.
 Default viewpoint is HCA01 (`simhost HCA03` changes it). LIDs below are what this lab assigns on
 `redundant` (HCA01=1 SW01=2 SW02=3 SW03=4 SW04=5 HCA02=6 HCA03=7 HCA04=8); yours should match - if not, that is data.
 Do them in order. Type the commands yourself; answers are in `../answers/` - try first.

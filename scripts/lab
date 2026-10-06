@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# lab - HOST-side wrapper (run on dockerhost from ~/infiniband-lab).
+# lab - HOST-side wrapper (run on the Docker host, from the repo).
 # Usage: lab up | shell | down      up = build image + (re)create container; shell = open a prompt
 # inside it with the simulator environment loaded.
 set -euo pipefail
