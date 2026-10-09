@@ -6,7 +6,8 @@
 #   SIM_HOST=<node name>       which simulated node your commands "run on" (the viewpoint).
 #                              Switch viewpoint with:  simhost HCA03
 # ibsim ITSELF must not be preloaded - start-lab.sh strips LD_PRELOAD for it.
-export IBSIM_SO=/usr/lib/x86_64-linux-gnu/umad2sim/libumad2sim.so
+# Multiarch path: x86_64 on Intel/AMD hosts, aarch64 on Apple Silicon and other ARM hosts.
+export IBSIM_SO=/usr/lib/$(uname -m)-linux-gnu/umad2sim/libumad2sim.so
 export LD_PRELOAD="$IBSIM_SO"
 export SIM_HOST="${SIM_HOST:-HCA01}"
 export LAB=/lab
